@@ -20,22 +20,22 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _loadRandomUserList(currentPage);
+    loadRandomUserList();
 
     scrollController.addListener(() {
       if (scrollController.position.maxScrollExtent <= scrollController.offset) {
         currentPage++;
         LogService.i(currentPage.toString());
-        _loadRandomUserList(currentPage);
+        loadRandomUserList();
       }
     });
   }
 
-  _loadRandomUserList(int page) async {
+  loadRandomUserList() async {
     setState(() {
       isLoading = true;
     });
-    var response = await Network.GET(Network.API_RANDOM_USER_LIST, Network.paramsRandomUserList(page));
+    var response = await Network.GET(Network.API_RANDOM_USER_LIST, Network.paramsRandomUserList(currentPage));
     LogService.i(response!);
     var results = Network.parseRandomUserList(response).results;
     setState(() {
